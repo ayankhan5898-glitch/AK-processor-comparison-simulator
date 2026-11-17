@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Processor Performance Simulator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-mark">CPU</div>
+    <div>
+      <h1>Processor Performance Simulator</h1>
+      <p>Compare two simulated processor architectures</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="intro">
+      <span class="eyebrow">COMPUTER ARCHITECTURE PROJECT</span>
+      <h2>Which processor performs better?</h2>
+      <p>Enter the processor specifications, run the simulation, and compare their execution time.</p>
+    </section>
+
+    <section class="processor-grid">
+      <article class="processor-card processor-a">
+        <div class="card-heading">
+          <div><span class="processor-label">PROCESSOR A</span><h3>Architecture A</h3></div>
+          <span class="chip-icon">A</span>
+        </div>
+        <label for="clockA">Clock Speed (GHz)</label>
+        <input id="clockA" type="number" min="0.000001" step="any" value="2.5">
+        <label for="cpiA">CPI (Cycles Per Instruction)</label>
+        <input id="cpiA" type="number" min="0.000001" step="any" value="1.5">
+        <label for="instructionsA">Instruction Count</label>
+        <input id="instructionsA" type="number" min="1" step="1" value="1000000">
+      </article>
+
+      <article class="processor-card processor-b">
+        <div class="card-heading">
+          <div><span class="processor-label">PROCESSOR B</span><h3>Architecture B</h3></div>
+          <span class="chip-icon">B</span>
+        </div>
+        <label for="clockB">Clock Speed (GHz)</label>
+        <input id="clockB" type="number" min="0.000001" step="any" value="3">
+        <label for="cpiB">CPI (Cycles Per Instruction)</label>
+        <input id="cpiB" type="number" min="0.000001" step="any" value="2">
+        <label for="instructionsB">Instruction Count</label>
+        <input id="instructionsB" type="number" min="1" step="1" value="1000000">
+      </article>
+    </section>
+
+    <div class="actions">
+      <button id="compareBtn" class="primary-btn">Run Simulation</button>
+      <button id="sampleBtn" class="secondary-btn">Load Sample Values</button>
+      <button id="resetBtn" class="text-btn">Reset</button>
+      <button id="downloadReportBtn" type="button" class="secondary-btn">
+    Download Report
+</button>
+      <section class="table-wrap history-section">
+    <h3>Simulation History</h3>
+    <p class="muted">Your previous processor comparisons.</p>
+
+    <button id="clearHistoryBtn" class="secondary-btn">
+        Clear History
+    </button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Run</th>
+                <th>Processor A Time</th>
+                <th>Processor B Time</th>
+                <th>Winner</th>
+            </tr>
+        </thead>
+
+        <tbody id="historyBody">
+            <tr>
+                <td colspan="4">No simulations yet.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    </div>
+    <p class="hint">Tip: For a fair comparison, use the same instruction count for both processors.</p>
+    <p id="errorMessage" class="error" role="alert"></p>
+
+    <section id="results" class="results hidden" aria-live="polite">
+      <div class="section-heading">
+        <div><span class="eyebrow">SIMULATION OUTPUT</span><h2>Performance results</h2></div>
+        <span id="winnerBadge" class="winner-badge">Winner</span>
+      </div>
+
+      <div class="result-grid">
+        <article class="result-card"><span>Processor A · Clock cycles</span><strong id="cyclesA">—</strong></article>
+        <article class="result-card"><span>Processor B · Clock cycles</span><strong id="cyclesB">—</strong></article>
+        <article class="result-card"><span>Processor A · Execution time</span><strong id="timeA">—</strong></article>
+        <article class="result-card"><span>Processor B · Execution time</span><strong id="timeB">—</strong></article>
+      </div>
+
+      <article class="chart-card">
+        <h3>Execution time comparison</h3>
+        <p class="muted">Shorter bar means less execution time and better performance for this workload.</p>
+        <div class="bar-row"><span>Processor A</span><div class="bar-track"><div id="barA" class="bar bar-a"></div></div><strong id="barLabelA">—</strong></div>
+        <div class="bar-row"><span>Processor B</span><div class="bar-track"><div id="barB" class="bar bar-b"></div></div><strong id="barLabelB">—</strong></div>
+      </article>
+
+      <article class="explanation-card">
+        <h3>What does this result mean?</h3>
+        <p id="explanation"></p>
+        <p id="speedup" class="speedup"></p>
+      </article>
+
+      <div class="table-wrap">
+        <h3>Detailed comparison</h3>
+        <table>
+          <thead><tr><th>Parameter</th><th>Processor A</th><th>Processor B</th></tr></thead>
+          <tbody>
+            <tr><td>Clock speed</td><td id="tableClockA">—</td><td id="tableClockB">—</td></tr>
+            <tr><td>CPI</td><td id="tableCpiA">—</td><td id="tableCpiB">—</td></tr>
+            <tr><td>Instruction count</td><td id="tableIcA">—</td><td id="tableIcB">—</td></tr>
+            <tr><td>Total clock cycles</td><td id="tableCyclesA">—</td><td id="tableCyclesB">—</td></tr>
+            <tr><td>Execution time</td><td id="tableTimeA">—</td><td id="tableTimeB">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="formula-card">
+      <h3>Formula used in this simulator</h3>
+      <p class="formula">CPU Execution Time = (Instruction Count × CPI) ÷ Clock Rate</p>
+      <p class="muted">Clock speed is entered in GHz and converted to Hz before calculation. 1 GHz = 1,000,000,000 cycles per second.</p>
+    </section>
+
+    <footer>Educational simulation only · This compares entered specifications, not real physical CPUs.</footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
